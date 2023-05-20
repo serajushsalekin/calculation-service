@@ -46,7 +46,9 @@ pipeline {
 
     post {
         always {
-            sh 'cleanup.sh'
+            echo "Performing cleanup..."
+            // Remove all Docker images
+            sh 'docker rmi -f $(docker images -aq)'
         }
     }
 }
