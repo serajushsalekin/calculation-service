@@ -26,16 +26,16 @@ pipeline {
             }
         }
 
-        stage('Build and Push Docker Image') {
-            when {
-                BRANCH_NAME == 'master'
-            }
-            steps {
-                docker.withRegistry( '', registryCredential ) {
-                        dockerImage.push()
-                }
-            }
-        }
+//         stage('Build and Push Docker Image') {
+//             when {
+//                 BRANCH_NAME == 'master'
+//             }
+//             steps {
+//                 docker.withRegistry( '', registryCredential ) {
+//                         dockerImage.push()
+//                 }
+//             }
+//         }
 
         stage('Deploy (Production)') {
             steps {
