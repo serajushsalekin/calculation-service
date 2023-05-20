@@ -47,8 +47,9 @@ pipeline {
     post {
         always {
             echo "Performing cleanup..."
+            echo "DockerImage: ${env.registry}:${env.version}"
             // Remove all Docker images
-            sh 'docker rmi -f $(docker images -aq)'
+            sh 'docker rmi ${env.registry}:${env.version}'
         }
     }
 }
