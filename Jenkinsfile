@@ -35,7 +35,7 @@ pipeline {
             }
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'DOCKER_CREDS', usernameVariable: 'usr', passwordVariable: 'passwrd')]) {
+                    withCredentials([usernamePassword(credentialsId: '$DOCKER_CREDS', usernameVariable: 'usr', passwordVariable: 'passwrd')]) {
                         sh "echo $passwrd | docker login -u $usr --password-stdin"
                         sh "docker image push ${env.registry}:${env.version}"
                     }
