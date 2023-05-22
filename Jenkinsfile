@@ -11,10 +11,6 @@ pipeline {
             steps {
                 git 'https://github.com/serajushsalekin/calculation-service.git'
                 sh "docker build -t ${env.registry}:${env.version} ."
-                sh "echo 'images: '"
-                sh "docker images"
-                sh "echo 'containers: '"
-                sh "docker ps -a"
             }
         }
 
@@ -53,7 +49,7 @@ pipeline {
             echo "Performing cleanup..."
             echo "DockerImage: ${env.registry}:${env.version}"
             // Remove all Docker images
-            sh 'docker rmi ${env.registry}:${env.version}'
+            sh "docker rmi ${env.registry}:${env.version}"
         }
     }
 }
