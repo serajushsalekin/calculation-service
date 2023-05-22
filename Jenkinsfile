@@ -11,6 +11,10 @@ pipeline {
             steps {
                 git 'https://github.com/serajushsalekin/calculation-service.git'
                 sh 'docker build -t ${env.registry}:${env.version} .'
+                sh 'echo "images: "'
+                sh 'docker images'
+                sh 'echo "containers: "'
+                sh 'docker ps -a'
             }
         }
 
