@@ -29,7 +29,9 @@ pipeline {
 
         stage('Deploy') {
             when {
-                BRANCH_NAME == 'master'
+                expression {
+                    BRANCH_NAME == 'master'
+                }
             }
             steps {
                 script {
