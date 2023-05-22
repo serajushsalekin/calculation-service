@@ -50,7 +50,7 @@ pipeline {
             echo "Removing docker image: ${env.registry}:${env.version}"
             sh "docker rmi ${env.registry}:${env.version}"
             echo "Removing pipeline artifact..."
-            sh "cleanWs()"
+            cleanWs()
         }
     }
 }
