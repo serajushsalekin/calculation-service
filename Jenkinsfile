@@ -20,6 +20,9 @@ pipeline {
                     return env.CHANGE_BRANCH == 'merge-request' || env.CHANGE_BRANCH == 'master'
                 }
             }
+            agent {
+                docker { image "${env.registry}:${env.version}" }
+            }
             steps {
                 sh 'pip install -r requirements.txt'
                 sh 'pytest'
