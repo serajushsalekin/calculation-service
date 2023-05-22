@@ -47,9 +47,10 @@ pipeline {
     post {
         always {
             echo "Performing cleanup..."
-            echo "DockerImage: ${env.registry}:${env.version}"
-            // Remove all Docker images
+            echo "Removing docker image: ${env.registry}:${env.version}"
             sh "docker rmi ${env.registry}:${env.version}"
+            echo "Removing pipeline artifact..."
+            sh "cleanWs()"
         }
     }
 }
