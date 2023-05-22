@@ -2,7 +2,6 @@ pipeline {
     agent any
     environment {
         registry = "salekin/calculation-service"
-        registryCredential = 'dockerhub_creds'
         version = "$BUILD_NUMBER"
         DOCKER_CREDS = credentials('docker-creds')
     }
@@ -17,28 +16,30 @@ pipeline {
         stage('Test') {
             when {
                 expression {
-                    return env.CHANGE_BRANCH == 'merge-request' || env.CHANGE_BRANCH == 'master'
+                    BRANCH_NAME == 'master'
                 }
             }
             agent {
                 docker { image "${env.registry}:${env.version}" }
             }
             steps {
-                sh 'pip install -r requirements.txt'
                 sh 'pytest'
             }
         }
 
-//         stage('Build and Push Docker Image') {
-//             when {
-//                 BRANCH_NAME == 'master'
-//             }
-//             steps {
-//                 docker.withRegistry( '', registryCredential ) {
-//                         dockerImage.push()
-//                 }
-//             }
-//         }
+        stage('Deploy') {
+            when {
+                BRANCH_NAME == 'master'
+            }
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'DOCKER_CREDS', usernameVariable: 'usr', passwordVariable: 'passwrd')]) {
+                        sh "echo $passwrd | docker login -u $usr --password-stdin"
+                        sh "docker image push ${env.registry}:${env.version}"
+                    }
+                }
+            }
+        }
 
         stage('Deploy (Production)') {
             steps {
