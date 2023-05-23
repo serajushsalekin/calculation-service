@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'git clone https://github.com/serajushsalekin/calculation-service.git'
+                git 'https://github.com/serajushsalekin/calculation-service.git'
                 sh "docker build -t ${env.registry}:${env.version} ."
             }
         }
